@@ -1,7 +1,6 @@
 import os
 import click
 import json
-import base64
 import requests
 import rich
 from rich.markdown import Markdown

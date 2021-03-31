@@ -4,7 +4,6 @@ import json
 import yaml
 
 from rich import print as rprint
-from rich.padding import Padding, PaddingDimensions
 from rich.table import Table
 from rich.console import Console
 
