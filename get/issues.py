@@ -18,34 +18,65 @@ def get_issue_order(issue):
         return 1
 
 @click.command()
-@click.option('--output', '-o', help="The type of output", default="table", type=click.Choice(['yaml', 'json', 'table']))
 @click.option('--user', '-u', help='ID of the user to search issues for', default=False)
-@click.option('--include-closed', help="Includes the closed items", is_flag=True)
-@click.option('--show-query', help="Shows the query to be used", is_flag=True)
 @click.option('--project', '-p', help="Which project to search for the issues", default=False)
-@click.option('--all-projects', '-A', help='Query all projects', is_flag=True, default=False)
+@click.option('--scrum-team', '-t', help="The scrum team assigned for the issues", default=False)
 @click.option('--sprint', '-s', help="Which sprint to search for the issues", default=False)
+@click.option('--output', '-o', help="The type of output", default="table", type=click.Choice(['yaml', 'json', 'table']))
+@click.option('--show-query', help="Shows the query to be used", is_flag=True)
+@click.option('--all-users', help='Query all users', is_flag=True, default=False)
+@click.option('--all-projects', '-A', help='Query all projects', is_flag=True, default=False)
 @click.option('--all-sprints', help="Query all sprints", is_flag=True, default=False)
+@click.option('--all-scrum-teams', help="Query all scrum teams", is_flag=True, default=False)
+@click.option('--include-closed', help="Includes the closed items", is_flag=True)
+@click.option('--show-story-points', help="Shows the story points of all issues", is_flag=True)
 @click.pass_context
-def issues(ctx, output, user, include_closed, show_query, project, all_projects, sprint, all_sprints):
-    body = {}
+def issues(ctx, output, user, include_closed, show_query, project, all_projects, sprint, all_sprints, show_story_points, scrum_team, all_scrum_teams, all_users):
+    body = {'jql':""}
+    first = True
     # Query for assignee current user if user is not set
-    body['jql'] = "assignee = " 
-    body['jql'] += ctx.obj['current_user'] if not user else user
+    if not all_users:
+        body['jql'] += "assignee = " 
+        body['jql'] += ctx.obj['current_user'] if not user else user
+        first = False
 
     # Query only for status not Closed if flag include_closed is not set
-    body['jql'] += " AND status != Closed" if not include_closed else ""
+    if not include_closed:
+        if not first:
+            body['jql'] += " AND "
+        else: 
+            first = False
+        body['jql'] += "status != Closed" if not include_closed else ""
 
     # Query for project set in options or default project. Query everything if not set
     if (project or ctx.obj.get('project')) and not all_projects:
-        body['jql'] += " AND project = " + project if project else " AND project = " + ctx.obj['project']
+        if not first:
+            body['jql'] += " AND "
+        else: 
+            first = False
+        body['jql'] += "project = " + project if project else "project = " + ctx.obj['project']
     else:
         all_projects = True
 
+    # Query for sprint set in options or default sprint. Query everything if not set
     if (sprint or ctx.obj.get('sprint')) and not all_sprints:
-        body['jql'] += " AND Sprint = '" + sprint + "'" if sprint else " AND Sprint = '" + ctx.obj['sprint'] + "'"
+        if not first:
+            body['jql'] += " AND "
+        else: 
+            first = False
+        body['jql'] += "Sprint = '" + sprint + "'" if sprint else "Sprint = '" + ctx.obj['sprint'] + "'"
     else: 
         all_sprints = True
+
+    # Query for scrum team set in options or default scrum team. Query everything if not set
+    if (scrum_team or ctx.obj.get('Scrum Team')) and not all_scrum_teams:
+        if not first:
+            body['jql'] += " AND "
+        else: 
+            first = False
+        body['jql'] += "'Scrum Teams' = '" + scrum_team + "'" if scrum_team else "'Scrum Teams' = '" + ctx.obj['Scrum Team'] + "'"
+    else: 
+        all_scrum_teams = True
 
     if show_query: rprint(body['jql'])
     
@@ -65,6 +96,7 @@ def issues(ctx, output, user, include_closed, show_query, project, all_projects,
         table.add_column("STATUS", justify='left')
         table.add_column("ASSIGNEE", justify='left')
         if all_sprints: table.add_column("SPRINT", justify='left')
+        if show_story_points: table.add_column("STORY POINTS", justify='left')
         issues_returned.sort(key=get_issue_order)
         for issue in issues_returned:
             to_add = []
@@ -72,8 +104,12 @@ def issues(ctx, output, user, include_closed, show_query, project, all_projects,
             to_add.append(issue['key'])
             to_add.append(issue['fields']['summary'])
             to_add.append(issue['fields']['status']['statusCategory']['name'])
-            to_add.append(issue['fields']['assignee']['displayName'] + "(" + issue['fields']['assignee']['key'] + ")")
+            if issue['fields'].get('assignee'): to_add.append(issue['fields']['assignee']['displayName'] + "(" + issue['fields']['assignee']['key'] + ")")
             if issue['fields'].get('customfield_12800') and all_sprints: 
                 to_add.append(re.findall('(?:name=)(.*)(?:,startDate)', issue['fields']['customfield_12800'][0])[0])
+            if issue['fields'].get('customfield_10002') and show_story_points:
+                to_add.append(issue['fields']['customfield_10002'].__str__())
             table.add_row(*to_add)
         console.print(table)
+
+
