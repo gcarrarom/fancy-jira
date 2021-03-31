@@ -1,0 +1,5 @@
+click
+pathlib
+iterfzf
+datetime
+PyYAML
