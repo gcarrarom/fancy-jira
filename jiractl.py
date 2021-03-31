@@ -8,6 +8,7 @@ from rich.traceback import install
 install()
 
 import get
+import update
 
 APP_NAME = '.jiractl'
 CONFIG_FILE = 'config.json'
@@ -146,5 +147,9 @@ jira.add_command(login)
 jira.add_command(config)
 
 for client in [method_name for method_name in dir(get)
-                  if callable(getattr(get, method_name))]:
+               if callable(getattr(get, method_name))]:
     jira.add_command(getattr(get, client))
+
+for client in [method_name for method_name in dir(update)
+               if callable(getattr(update, method_name))]:
+    jira.add_command(getattr(update, client))
