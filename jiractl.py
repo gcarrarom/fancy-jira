@@ -30,9 +30,9 @@ def jira(ctx):
                                 "Accept": "application/json"}
         except KeyError:
             rich.print("You should authenticate with 'jira login' first!")
+        config['api_endpoint'] = config['endpoint'] + "/rest/api"
     config['app_dir'] = app_dir
     config['config_file_path'] = config_file_path
-    config['api_endpoint'] = config['endpoint'] + "/rest/api"
     ctx.obj = config
 
 @click.command()
