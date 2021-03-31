@@ -9,7 +9,8 @@ setup(
     py_modules=['jiractl'],
     install_requires=[
         'Click',
-        'requests'
+        'requests',
+        'rich'
     ],
     entry_points='''
         [console_scripts]
