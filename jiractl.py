@@ -114,22 +114,6 @@ config.add_command(show_config)
 config.add_command(set_config)
 config.add_command(remove_config)
 
-@click.command()
-@click.option('--id', '-i', help="ID of the issue to be shown")
-@click.option('--output', '-o', help="Type of output from the CLI", default="table")
-@click.pass_context
-def issue(ctx, id, output):
-    result = requests.get(f"{ctx.obj['api_endpoint']}/latest/issue/{id}", headers=ctx.obj['headers'])
-    result.raise_for_status()
-    print(result.text)
-    issue = result.json()
-    if output == 'json':
-        rich.print(issue)
-    elif output == 'table':
-        markdown_output = f"# {issue['key']}\n"
-        markdown_output += issue['fields']['summary']
-        rich.print(Markdown(markdown_output))
-
 def read_configfile(config_file_path: str) -> dict:
     '''
     This function reads the contents of the config file for jiractl and dumps it as a dict for later use
@@ -160,7 +144,6 @@ def write_config_file(file_path, data):
 
 jira.add_command(login)
 jira.add_command(config)
-jira.add_command(issue)
 
 for client in [method_name for method_name in dir(get)
                   if callable(getattr(get, method_name))]:
