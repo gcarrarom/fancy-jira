@@ -9,6 +9,7 @@ install()
 
 import get
 import update
+import create
 
 APP_NAME = '.jiractl'
 CONFIG_FILE = 'config.json'
@@ -153,3 +154,7 @@ for client in [method_name for method_name in dir(get)
 for client in [method_name for method_name in dir(update)
                if callable(getattr(update, method_name))]:
     jira.add_command(getattr(update, client))
+
+for client in [method_name for method_name in dir(create)
+               if callable(getattr(create, method_name))]:
+    jira.add_command(getattr(create, client))
