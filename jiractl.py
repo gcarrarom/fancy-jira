@@ -34,6 +34,7 @@ def jira(ctx):
         config['api_endpoint'] = config['endpoint'] + "/rest/api"
     config['app_dir'] = app_dir
     config['config_file_path'] = config_file_path
+    [os.environ.setdefault(key, config[key]) for key in config if key not in ['app_dir', 'endpoint', 'config_file_path', 'authenticated', 'headers']]
     ctx.obj = config
 
 @click.command()
