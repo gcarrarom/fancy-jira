@@ -3,9 +3,6 @@ import click
 import json
 import requests
 import rich
-from rich.markdown import Markdown
-from rich.traceback import install
-install()
 
 import get
 import update
