@@ -44,11 +44,6 @@ def jira(ctx):
 def login(ctx, apikey, endpoint):
     '''
     Setup of the authentication values for the JIRA Rest API
-
-    Args:
-        username (string): User ID to be used for the authentication
-        password (string): Password of the user to be used for the authentication
-        endpoint (string): URL of the Jira website managed by your company
     '''
     headers = {"Authorization": f"Bearer " + apikey,
                                 "Content-Type": "application/json"}
