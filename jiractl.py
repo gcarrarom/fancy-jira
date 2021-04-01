@@ -151,3 +151,6 @@ for client in [method_name for method_name in dir(update)
 for client in [method_name for method_name in dir(create)
                if callable(getattr(create, method_name))]:
     jira.add_command(getattr(create, client))
+
+if __name__ == '__main__':
+    jira()
