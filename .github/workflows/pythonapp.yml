@@ -50,7 +50,8 @@ jobs:
         echo "setup.py file version: $ApplicationVersion"
         echo "Testing if this version already exists in GitHub..."
         echo "check if there's a match on the version.."
-        Match=$(git tag -l | grep $ApplicationVersion)
+        versions=$(git tag -l)
+        Match=$(echo $versions | grep $ApplicationVersion)
 
         if [[ -z "$Match" ]]; then
           echo "All good, this doesn't match any old versions"
