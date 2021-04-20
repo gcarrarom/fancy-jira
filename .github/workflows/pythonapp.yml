@@ -63,7 +63,7 @@ jobs:
         fi
         echo "All good, this doesn't match any old versions"
         echo "Version to be used: $ApplicationVersion"
-        echo "::set-env name=RELEASE_VERSION::$ApplicationVersion"
+        echo "RELEASE_VERSION=$ApplicationVersion" >> $GITHUB_ENV
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
