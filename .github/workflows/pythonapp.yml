@@ -49,17 +49,19 @@ jobs:
         ApplicationVersion=$(cat setup.py | grep version | cut -d '=' -f 2 | cut -d "'" -f 2)
         echo "setup.py file version: $ApplicationVersion"
         echo "Testing if this version already exists in GitHub..."
-        echo "Get the tags first..."
-        tags=$(curl https://api.github.com/repos/${GITHUB_REPOSITORY}/git/ref/tags/${GIT_TAG_NAME})
-        echo "check if there's a match on the version.."
-        Match=$(echo $tags | jq -r ".[] | select(.name == \"v$ApplicationVersion\")")
+        STATUS_CODE=$(curl -LI https://api.github.com/repos/gcarrarom/fancy-jira/git/ref/tags/v$ApplicationVersion  -o /dev/null -w '%{http_code}\n')
+        echo "GitHub returned with a ${STATUS_CODE}."
 
-        if [[ -z "$Match" ]]; then
-          echo "All good, this doesn't match any old versions"
-        else
-          echo "Nope, we have this already... try choosing another one ;)"
-          exit 100
+        if [[ "$STATUS_CODE" != "404" ]]; then
+          if [[ "$STATUS_CODE" = "200" ]]; then
+            echo "Tag v$ApplicationVersion already exists!"
+            exit 100
+          else
+            echo "Something went wrong! Github returned a $STATUS_CODE error!"
+            exit 200
+          fi
         fi
+        echo "All good, this doesn't match any old versions"
         echo "Version to be used: $ApplicationVersion"
         echo "::set-env name=RELEASE_VERSION::$ApplicationVersion"
     - name: Create Release
