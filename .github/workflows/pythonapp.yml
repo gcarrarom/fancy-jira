@@ -74,8 +74,8 @@ jobs:
         release_name: Release v${{ env.RELEASE_VERSION }}
         draft: false
         prerelease: false        
-    - name: Pip Upload
-      uses: onichandame/pip-upload-action@0.0.1
+    - name: Publish a Python distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         username: __token__
         password: ${{secrets.PYPI_PASS}}
