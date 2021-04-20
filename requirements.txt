@@ -1,3 +1,5 @@
-Click
+click
 requests
 rich
+PyYAML
+tabulate

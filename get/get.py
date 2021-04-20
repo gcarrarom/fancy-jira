@@ -1,5 +1,6 @@
 import click
 from .issues import issues
+from .issue import issue
 from .users import users
 
 @click.group()
@@ -13,3 +14,4 @@ def get(ctx):
 
 get.add_command(users)
 get.add_command(issues)
+get.add_command(issue)

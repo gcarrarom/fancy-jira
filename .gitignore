@@ -1,4 +1,3 @@
 __pycache__/*
-create/__pycache__/*
-get/__pycache__/*
-update/__pycache__/*
+*/__pycache__/*
+fancy_jira.egg-info/*

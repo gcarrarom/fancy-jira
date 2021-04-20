@@ -1,6 +1,7 @@
 import click
 import os
 import requests
+from shared_functions import get_config
 
 @click.command()
 @click.option('--summary', '-s', help="the summary of the issue to be created", prompt=True, required=True)
@@ -16,6 +17,7 @@ import requests
 @click.option('--issue-type', help="Type of the issue to be created", type=click.Choice(['epic', 'Story', 'bug']), default='Story', show_default='Story')
 @click.pass_context
 def issue(ctx, summary, scenario, acceptance, description, epic, label, user, project, scrum_team, sprint, issue_type):
+    config = get_config()
     body = {
         "fields":{'summary': summary,
                   'description': description,
@@ -30,7 +32,7 @@ def issue(ctx, summary, scenario, acceptance, description, epic, label, user, pr
 
     if sprint: 
         # Searching for the sprint
-        request = requests.get('https://jira.finastra.com/rest/greenhopper/1.0/sprint/picker?query=' + sprint, headers=ctx.obj['headers'])
+        request = requests.get('https://jira.finastra.com/rest/greenhopper/1.0/sprint/picker?query=' + sprint, headers=config['headers'])
         request.raise_for_status()
         sprints_suggestions = request.json()['suggestions']
         if len(sprints_suggestions) != 1:
@@ -40,7 +42,7 @@ def issue(ctx, summary, scenario, acceptance, description, epic, label, user, pr
     if label: body['fields']['labels'] = [label]
     
 
-    request = requests.post(ctx.obj['api_endpoint'] + '/latest/issue', json=body, headers=ctx.obj['headers'])
+    request = requests.post(config['api_endpoint'] + '/latest/issue', json=body, headers=config['headers'])
 
     try:
         request.raise_for_status()

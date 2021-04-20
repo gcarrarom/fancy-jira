@@ -1,16 +1,20 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='jiractl',
+    name='fancy-jira',
     version='0.0.1',
     author='Gui Martins',
+    url='https://fancywhale.ca/',
+    author_email='gmartins@fancywhale.ca',
     packages=find_packages(),
     include_package_data=True,
     py_modules=['jiractl'],
     install_requires=[
-        'Click',
+        'click',
         'requests',
-        'rich'
+        'rich',
+        'PyYAML',
+        'tabulate'
     ],
     entry_points='''
         [console_scripts]
