@@ -1,2 +1,7 @@
 mock
 testfixtures
+click
+requests
+rich
+PyYAML
+tabulate
