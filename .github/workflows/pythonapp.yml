@@ -49,9 +49,10 @@ jobs:
         ApplicationVersion=$(cat setup.py | grep version | cut -d '=' -f 2 | cut -d "'" -f 2)
         echo "setup.py file version: $ApplicationVersion"
         echo "Testing if this version already exists in GitHub..."
+        echo "Get the tags first..."
+        tags=$(curl https://api.github.com/repos/${GITHUB_REPOSITORY}/git/ref/tags/${GIT_TAG_NAME})
         echo "check if there's a match on the version.."
-        versions=$(git tag -l)
-        Match=$(echo $versions | grep $ApplicationVersion)
+        Match=$(echo $tags | jq -r ".[] | select(.name == \"v$ApplicationVersion\")")
 
         if [[ -z "$Match" ]]; then
           echo "All good, this doesn't match any old versions"
