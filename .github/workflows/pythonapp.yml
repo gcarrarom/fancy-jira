@@ -65,7 +65,7 @@ jobs:
         echo "Version to be used: $ApplicationVersion"
         echo "RELEASE_VERSION=$ApplicationVersion" >> $GITHUB_ENV
     - name: Pip Upload
-      uses: onichandame/pip-upload-action@0.0.1
+      uses: onichandame/pip-upload-action@0.0.2
       with:
         username: __token__
         password: ${{secrets.PYPI_PASS}}
