@@ -68,6 +68,7 @@ jobs:
       run : | 
         pip install --upgrade pip
         pip install wheel
+        pip install twine
     - name: Pip Upload
       uses: onichandame/pip-upload-action@0.0.2
       with:
