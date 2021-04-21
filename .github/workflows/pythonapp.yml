@@ -64,6 +64,11 @@ jobs:
         echo "All good, this doesn't match any old versions"
         echo "Version to be used: $ApplicationVersion"
         echo "RELEASE_VERSION=$ApplicationVersion" >> $GITHUB_ENV
+    - name: Pip Upload
+      uses: onichandame/pip-upload-action@0.0.1
+      with:
+        username: __token__
+        password: ${{secrets.PYPI_PASS}}
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
@@ -74,8 +79,3 @@ jobs:
         release_name: Release v${{ env.RELEASE_VERSION }}
         draft: false
         prerelease: false        
-    - name: Publish a Python distribution to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        username: __token__
-        password: ${{secrets.PYPI_PASS}}
