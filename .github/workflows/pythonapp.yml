@@ -64,8 +64,9 @@ jobs:
         echo "All good, this doesn't match any old versions"
         echo "Version to be used: $ApplicationVersion"
         echo "RELEASE_VERSION=$ApplicationVersion" >> $GITHUB_ENV
-    - name: Install wheel
+    - name: Install Requirements
       run : | 
+        pip install --upgrade pip
         pip install wheel
     - name: Pip Upload
       uses: onichandame/pip-upload-action@0.0.2
