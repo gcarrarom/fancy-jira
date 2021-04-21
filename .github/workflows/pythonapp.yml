@@ -70,10 +70,9 @@ jobs:
         pip install wheel
         pip install twine
     - name: Pip Upload
-      uses: onichandame/pip-upload-action@0.0.2
+      uses: casperdcl/deploy-pypi@v2
       with:
-        username: __token__
-        password: ${{secrets.PYPI_PASS}}
+        password: ${{ secrets.PYPI_TOKEN }}
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
