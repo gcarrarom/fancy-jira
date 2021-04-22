@@ -67,7 +67,7 @@ jobs:
     - uses: actions/setup-python@v2
     - uses: casperdcl/deploy-pypi@v2
       with:
-        password: ${{ secrets.PYPI_TOKEN }}
+        password: ${{ secrets.PYPI_PASS }}
         pip: wheel -w dist/ --no-deps .
     - name: Create Release
       id: create_release
