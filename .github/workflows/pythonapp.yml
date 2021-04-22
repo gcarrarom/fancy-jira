@@ -64,13 +64,14 @@ jobs:
         echo "All good, this doesn't match any old versions"
         echo "Version to be used: $ApplicationVersion"
         echo "RELEASE_VERSION=$ApplicationVersion" >> $GITHUB_ENV
-    - name: Install Requirements
-      run : | 
-        pip install --upgrade pip
-        pip install wheel
-        pip install twine
-    - name: Pip Upload
-      uses: casperdcl/deploy-pypi@v2
+    - name: Install pypa/build
+      run: |
+        python -m pip install build --user
+    - name: Build a binary wheel and a source tarball
+      run: |
+        python -m build --sdist --wheel --outdir dist/
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_TOKEN }}
     - name: Create Release
