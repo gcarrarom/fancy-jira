@@ -103,7 +103,7 @@ def get_issues(output, user, include_closed, show_query, project,
             to_add.append(issue['key'] if not show_url else "https://jira.finastra.com/browse/" + issue['key'])
             to_add.append(issue['fields']['summary'])
             to_add.append(issue['fields']['status']['statusCategory']['name'])
-            if issue['fields'].get('assignee'): to_add.append(issue['fields']['assignee']['displayName'] + "(" + issue['fields']['assignee']['key'] + ")")
+            if issue['fields'].get('assignee'): to_add.append(issue['fields']['assignee']['displayName'] + "(" + issue['fields']['assignee']['name'] + ")")
             if issue['fields'].get('customfield_12800') and all_sprints: 
                 to_add.append(re.findall('(?:name=)(.*)(?:,startDate)', issue['fields']['customfield_12800'][0])[0])
             if show_story_points:
