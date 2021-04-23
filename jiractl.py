@@ -40,7 +40,7 @@ def login(ctx, apikey, endpoint):
     request = requests.get(endpoint + '/rest/api/latest/myself', headers=headers)
     request.raise_for_status()
     current_user = request.json()
-    write_config_file(config['config_file_path'], {'apikey': apikey,'endpoint': endpoint, 'current_user': current_user['key']})
+    write_config_file(config['config_file_path'], {'apikey': apikey,'endpoint': endpoint, 'current_user': current_user.get('name')})
     print("Authentication configuration setup correctly!")
 
 
