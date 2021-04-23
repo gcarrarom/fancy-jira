@@ -27,8 +27,8 @@ def jira(ctx):
 
 
 @click.command()
-@click.option('--apikey', '-k', help="API Key for the user authentication", required=True, prompt=True, hide_input=True)
-@click.option('--endpoint', '-e', help="the URI of the Jira website for your company", required=True, prompt=True)
+@click.option('--apikey', '-k', help="Bearer API Key for the user authentication", required=True, prompt=True, hide_input=True)
+@click.option('--endpoint', '-e', help="URI of the Jira website for your company", required=True, prompt=True)
 @click.pass_context
 def login(ctx, apikey, endpoint):
     '''
