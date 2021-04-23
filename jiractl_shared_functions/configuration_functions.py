@@ -2,17 +2,16 @@ import click
 import os
 import json
 
-APP_NAME = '.jiractl'
-CONFIG_FILE = 'config.json'
-
 def get_headers(config):
     return {"Authorization": f"Bearer {config.get('apikey')}",
             "Content-Type": "application/json", 
             "Accept": "application/json"}
 
 def get_config():
-    app_dir = click.get_app_dir(APP_NAME)
-    config_file_path = os.path.join(app_dir, CONFIG_FILE)
+    app_name = '.jiractl'
+    config_file = 'config.json'
+    app_dir = click.get_app_dir(app_name)
+    config_file_path = os.path.join(app_dir, config_file)
     config = read_configfile(config_file_path)
     config['authenticated'] = True
     config['headers'] = get_headers(config)
@@ -38,11 +37,13 @@ def read_configfile(config_file_path: str) -> dict:
     return config_dict
 
 def create_default_configfile():
-    app_dir = click.get_app_dir(APP_NAME)
+    app_name = '.jiractl'
+    config_file = 'config.json'
+    app_dir = click.get_app_dir(app_name)
     if not os.path.isdir(app_dir):
             os.mkdir(app_dir)
     config = {}
-    write_config_file(os.path.join(app_dir, CONFIG_FILE), config)
+    write_config_file(os.path.join(app_dir, config_file), config)
 
 def write_config_file(file_path, data):
     if data.get('headers'): del data['headers']

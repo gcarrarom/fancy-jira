@@ -1,6 +1,6 @@
 import click
 import requests
-from shared_functions import get_config
+from jiractl_shared_functions import get_config
 
 
 @click.command()

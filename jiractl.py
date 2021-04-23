@@ -6,9 +6,9 @@ import rich
 import get
 import update
 import create
-import config
+import jira_config
 
-from shared_functions import write_config_file, get_config
+from jiractl_shared_functions import write_config_file, get_config
 
 @click.group()
 @click.pass_context
@@ -20,9 +20,9 @@ def jira(ctx):
     if ctx.invoked_subcommand != 'login':
         try:
             config = get_config()
+            config['api_endpoint'] = config['endpoint'] + "/rest/api"
         except KeyError:
             rich.print("You should authenticate with 'jira login' first!")
-        config['api_endpoint'] = config['endpoint'] + "/rest/api"
         [os.environ.setdefault(key, config[key]) for key in config if key not in ['app_dir', 'endpoint', 'config_file_path', 'authenticated', 'headers']]
 
 
@@ -45,16 +45,10 @@ def login(ctx, apikey, endpoint):
 
 
 jira.add_command(login)
-
-def add_all_commands(group):
-    for client in [method_name for method_name in dir(group)
-                if callable(getattr(group, method_name))]:
-        jira.add_command(getattr(group, client))
-
-groups = [get, update, create, config]
-
-for group in groups:
-    add_all_commands(group)
+jira.add_command(jira_config.config)
+jira.add_command(get.get)
+jira.add_command(update.update)
+jira.add_command(create.create)
 
 if __name__ == '__main__':
     jira()

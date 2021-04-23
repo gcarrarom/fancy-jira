@@ -1,7 +1,7 @@
 import click
 import os
 import requests
-from shared_functions import get_config
+from jiractl_shared_functions import get_config
 
 @click.command()
 @click.option('--summary', '-s', help="the summary of the issue to be created", prompt=True, required=True)

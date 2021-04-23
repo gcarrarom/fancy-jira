@@ -2,7 +2,7 @@ import click
 import requests
 import json
 import yaml
-from shared_functions import get_config
+from jiractl_shared_functions import get_config
 
 from rich import print as rprint
 

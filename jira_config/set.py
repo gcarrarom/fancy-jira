@@ -1,5 +1,5 @@
 import click
-from shared_functions import get_config, write_config_file
+from jiractl_shared_functions import get_config, write_config_file
 
 @click.command(name='set')
 @click.option('--key', '-k', help="The key to be set in this command", required=True, prompt=True)

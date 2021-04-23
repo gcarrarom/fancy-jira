@@ -1,7 +1,7 @@
 import click
 import requests
 from get.issues import get_issues
-from shared_functions import get_config
+from jiractl_shared_functions import get_config
 
 
 def get_issues_autocomp(ctx, args, incomplete):

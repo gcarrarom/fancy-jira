@@ -1,5 +1,5 @@
 import click
-from shared_functions import write_config_file, get_config
+from jiractl_shared_functions import write_config_file, get_config
 
 def get_keys(ctx, args, incomplete):
     config = get_config()

@@ -4,7 +4,7 @@ import json
 import yaml
 import re
 import os
-from shared_functions import get_config
+from jiractl_shared_functions import get_config
 
 from rich import print as rprint
 from tabulate import tabulate

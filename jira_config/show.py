@@ -1,6 +1,6 @@
 import click
 import rich
-from shared_functions import get_config
+from jiractl_shared_functions import get_config
 
 @click.command(name="show")
 @click.argument('key', required=False)
