@@ -6,7 +6,7 @@ APP_NAME = '.jiractl'
 CONFIG_FILE = 'config.json'
 
 def get_headers(config):
-    return {"Authorization": f"Bearer {config['apikey']}",
+    return {"Authorization": f"Bearer {config.get('apikey')}",
             "Content-Type": "application/json", 
             "Accept": "application/json"}
 
@@ -16,7 +16,7 @@ def get_config():
     config = read_configfile(config_file_path)
     config['authenticated'] = True
     config['headers'] = get_headers(config)
-    config['api_endpoint'] = config['endpoint'] + "/rest/api"
+    config['api_endpoint'] = config.get('endpoint', "") + "/rest/api"
     config['app_dir'] = app_dir
     config['config_file_path'] = config_file_path
     return config
