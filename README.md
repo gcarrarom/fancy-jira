@@ -1,6 +1,6 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/fancy-jira)
 # fancy-jira
-Just a fancy JIRA command line tool for people that doesn't like GUIs
+Just a fancy JIRA command line tool for people that do not like GUIs
 
 # Install
 For now you can just install this CLI using pip:
