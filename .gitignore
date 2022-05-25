@@ -1,3 +1,5 @@
 __pycache__/*
 */__pycache__/*
 fancy_jira.egg-info/*
+build/*
+.vscode/launch.json
