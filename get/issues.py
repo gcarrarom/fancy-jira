@@ -60,17 +60,17 @@ def get_issues(output, user, include_closed, show_query, project,
     query = query_build(query, "status != Closed") if not include_closed else query
 
     # Query for project set in options or default project. Query everything if not set
-    if not project:
+    if (not project) or project == 'False':
         all_projects = True
     query = query_build(query, "project = " + project) if not all_projects else query
 
     # Query for sprint set in options or default sprint. Query everything if not set
-    if not sprint:
+    if (not sprint) or sprint == 'False':
         all_sprints = True
     query = query_build(query, "Sprint = '" + sprint + "'") if not all_sprints else query
 
     # Query for scrum team set in options or default scrum team. Query everything if not set
-    if not scrum_team:
+    if (not scrum_team) or scrum_team == "False":
         all_scrum_teams = True
     query = query_build(query, "'Scrum Teams' = '" + scrum_team + "'") if not all_scrum_teams else query
     body['jql'] = query
@@ -78,7 +78,8 @@ def get_issues(output, user, include_closed, show_query, project,
         rprint(query)
     
     request = requests.post(config['api_endpoint'] + '/latest/search', json=body, headers=config['headers'])
-    request.raise_for_status()
+    if request.status_code > 299:
+        raise click.exceptions.ClickException(request.text)
     issues_returned = request.json()['issues']
     if output == 'python':
         return issues_returned
