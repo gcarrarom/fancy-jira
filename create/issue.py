@@ -32,7 +32,7 @@ def issue(ctx, summary, scenario, acceptance, description, epic, label, user, pr
 
     if sprint: 
         # Searching for the sprint
-        request = requests.get('https://jira.finastra.com/rest/greenhopper/1.0/sprint/picker?query=' + sprint, headers=config['headers'])
+        request = requests.get(f'{config["endpoint"]}/rest/greenhopper/1.0/sprint/picker?query=' + sprint, headers=config['headers'])
         request.raise_for_status()
         sprints_suggestions = request.json()['suggestions']
         if len(sprints_suggestions) != 1:

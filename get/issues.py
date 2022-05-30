@@ -101,7 +101,7 @@ def get_issues(output, user, include_closed, show_query, project,
         for issue in issues_returned:
             to_add = []
             if all_projects: to_add.append(issue['fields']['project']['key'])
-            to_add.append(issue['key'] if not show_url else "https://jira.finastra.com/browse/" + issue['key'])
+            to_add.append(issue['key'] if not show_url else f"{config['endpoint']}browse/" + issue['key'])
             to_add.append(issue['fields']['summary'])
             to_add.append(issue['fields']['status']['statusCategory']['name'])
             if issue['fields'].get('assignee'): to_add.append(issue['fields']['assignee']['displayName'] + "(" + issue['fields']['assignee']['name'] + ")")
