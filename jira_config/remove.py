@@ -6,7 +6,7 @@ def get_keys(ctx, args, incomplete):
     return [key for key in config.keys() if incomplete in key]
 
 @click.command(name='remove')
-@click.option('--key', '-k', help="The key to be removed", required=True, prompt=True, autocompletion=get_keys)
+@click.option('--key', '-k', help="The key to be removed", required=True, prompt=True, shell_complete=get_keys)
 @click.pass_context
 def remove_config(ctx, key):
     '''

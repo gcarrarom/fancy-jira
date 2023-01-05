@@ -13,7 +13,7 @@ def get_issues_autocomp(ctx, args, incomplete):
     return [(issue['key'],issue['fields']['summary']) for issue in returned if incomplete in issue['fields']['summary'] or incomplete in issue['key']]
 
 @click.command()
-@click.argument('issue', type=click.STRING, autocompletion=get_issues_autocomp)
+@click.argument('issue', type=click.STRING, shell_complete=get_issues_autocomp)
 @click.option('--comment', '-c', help="Comment text to add", type=str, required=True)
 @click.pass_context
 def comment(ctx, issue, comment):
