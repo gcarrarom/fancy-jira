@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
 
+with open("./README.md", 'r') as fr:
+    readme_file = fr.read()
+
 setup(
     name='fancy-jira',
     version='0.1.0',
@@ -20,4 +23,5 @@ setup(
         [console_scripts]
         jira=jiractl:jira
     ''',
+    long_description=readme_file
 )
