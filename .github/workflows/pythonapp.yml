@@ -72,7 +72,7 @@ jobs:
     - name: twine upload
       run: |
         python3 -m pip install --upgrade twine
-        python3 -m twine upload --repository testpypi dist/* -p "${{ secrets.PYPI_PASS }}" -u "gui.martins"
+        python3 -m twine upload dist/* -p "${{ secrets.PYPI_PASS }}" -u "gui.martins"
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
