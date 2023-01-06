@@ -5,7 +5,7 @@ with open("./README.md", 'r') as fr:
 
 setup(
     name='fancy-jira',
-    version='0.1.0',
+    version='0.1.1',
     author='Gui Martins',
     url='https://fancywhale.ca/',
     author_email='gmartins@fancywhale.ca',

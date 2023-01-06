@@ -65,10 +65,14 @@ jobs:
         echo "Version to be used: $ApplicationVersion"
         echo "RELEASE_VERSION=$ApplicationVersion" >> $GITHUB_ENV
     - uses: actions/setup-python@v2
-    - uses: casperdcl/deploy-pypi@v2
-      with:
-        password: ${{ secrets.PYPI_PASS }}
-        pip: wheel -w dist/ --no-deps .
+    - name: creating a dist
+      run: |
+        python3 -m pip install --upgrade build
+        python3 -m build
+    - name: twine upload
+      run: |
+        python3 -m pip install --upgrade twine
+        python3 -m twine upload --repository testpypi dist/* -p "${{ secrets.PYPI_PASS }}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
