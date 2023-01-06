@@ -65,14 +65,14 @@ jobs:
         echo "Version to be used: $ApplicationVersion"
         echo "RELEASE_VERSION=$ApplicationVersion" >> $GITHUB_ENV
     - uses: actions/setup-python@v2
-    - name: creating a dist
+    - name: creating dist
       run: |
         python3 -m pip install --upgrade build
         python3 -m build
     - name: twine upload
       run: |
         python3 -m pip install --upgrade twine
-        python3 -m twine upload dist/* -p "${{ secrets.PYPI_PASS }}" -u "gui.martins"
+        python3 -m twine upload dist/* -p "${{ secrets.PYPI_PASS }}" -u "__token__"
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
